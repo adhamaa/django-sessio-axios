@@ -70,12 +70,7 @@ export default async function handler(
   }
 
   res.status(201).json({
-    message: `File ${filename} saved to /tmp folder in your local`,
-    currentDir: process.cwd(),
-  });
-
-  res.status(201).json({
-    message: `File ${filename} saved to /tmp folder in your local`,
+    message: `File ${filename} saved to ${"~/efs1/dl/tmp"} folder in your local`,
     currentDir: process.cwd(),
     homeDir: os.homedir(),
   });
