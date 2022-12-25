@@ -42,28 +42,41 @@ export default async function handler(
   var binary = response.data.toString("binary");
   // console.log('binary:', binary)
 
+  //* ----------------- for current directory ----------------- *//
+  // // if file exist if not create it
+  // if (!fs.existsSync(path.join(process.cwd() + "/tmp"))) {
+  //   fs.mkdirSync(path.join(process.cwd() + "/tmp"), { recursive: true });
+  //   fs.writeFileSync(
+  //     process.cwd() + `/tmp/${filename}.pdf`,
+  //     response.data,
+  //     "binary"
+  //   );
+  // } else {
+  //   fs.writeFileSync(
+  //     process.cwd() + `/tmp/${filename}.pdf`,
+  //     response.data,
+  //     "binary"
+  //   );
+  // }
+
+  //* ----------------- for efs directory in ubuntu ----------------- *//
   // if file exist if not create it
-  if (!fs.existsSync(path.join(process.cwd() + "/tmp"))) {
-    fs.mkdirSync(path.join(process.cwd() + "/tmp"), { recursive: true });
-    fs.writeFileSync(
-      process.cwd() + `/tmp/${filename}.pdf`,
-      response.data,
-      "binary"
-    );
+  if (!fs.existsSync(path.join("~/efs1/dl/tmp"))) {
+    fs.mkdirSync(path.join("~/efs1/dl/tmp"), { recursive: true });
+    fs.writeFileSync(`~/efs1/dl/tmp/${filename}.pdf`, response.data, "binary");
   } else {
-    fs.writeFileSync(
-      process.cwd() + `/tmp/${filename}.pdf`,
-      response.data,
-      "binary"
-    );
+    fs.writeFileSync(`~/efs1/dl/tmp/${filename}.pdf`, response.data, "binary");
   }
 
-  res
-    .status(201)
-    .json({
-      message: `File ${filename} saved to /tmp folder in your local`,
-      currentDir: process.cwd(),
-    });
+  res.status(201).json({
+    message: `File ${filename} saved to /tmp folder in your local`,
+    currentDir: process.cwd(),
+  });
+
+  res.status(201).json({
+    message: `File ${filename} saved to /tmp folder in your local`,
+    currentDir: process.cwd(),
+  });
 
   // const doc = new PDFDocument();
   //use the tmp serverless function folder to create the write stream for the pdf
