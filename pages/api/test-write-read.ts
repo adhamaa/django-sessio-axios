@@ -3,6 +3,7 @@
 // import PDFDocument from "pdfkit";
 import axios from "axios";
 import fs from "fs";
+import os from "os";
 // import aws from "aws-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
@@ -76,6 +77,7 @@ export default async function handler(
   res.status(201).json({
     message: `File ${filename} saved to /tmp folder in your local`,
     currentDir: process.cwd(),
+    homeDir: os.homedir(),
   });
 
   // const doc = new PDFDocument();
