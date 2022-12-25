@@ -19,6 +19,9 @@ export default async function handler(
     query: { title, filename = "test" },
   } = req;
 
+  const currentDir = process.cwd();
+  const homeDir = os.homedir();
+
   let response = await axios({
     baseURL:
       "http://alb-dangabay-1a-702507269.ap-southeast-1.elb.amazonaws.com:81/api/v4",
@@ -62,17 +65,27 @@ export default async function handler(
 
   //* ----------------- for efs directory in ubuntu ----------------- *//
   // if file exist if not create it
-  if (!fs.existsSync(path.join("~/efs1/dl/tmp"))) {
-    fs.mkdirSync(path.join("~/efs1/dl/tmp"), { recursive: true });
-    fs.writeFileSync(`~/efs1/dl/tmp/${filename}.pdf`, response.data, "binary");
+  if (!fs.existsSync(path.join(homeDir + "/efs1/dl/tmp"))) {
+    fs.mkdirSync(path.join(homeDir + "/efs1/dl/tmp"), { recursive: true });
+    fs.writeFileSync(
+      homeDir + `/efs1/dl/tmp/${filename}.pdf`,
+      response.data,
+      "binary"
+    );
   } else {
-    fs.writeFileSync(`~/efs1/dl/tmp/${filename}.pdf`, response.data, "binary");
+    fs.writeFileSync(
+      homeDir + `/efs1/dl/tmp/${filename}.pdf`,
+      response.data,
+      "binary"
+    );
   }
 
   res.status(201).json({
-    message: `File ${filename} saved to ${"~/efs1/dl/tmp"} folder in your local`,
-    currentDir: process.cwd(),
-    homeDir: os.homedir(),
+    message: `File ${filename} saved to ${
+      homeDir + "/efs1/dl/tmp"
+    } folder in your local`,
+    currentDir,
+    homeDir,
   });
 
   // const doc = new PDFDocument();
