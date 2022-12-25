@@ -60,7 +60,10 @@ export default async function handler(
 
   res
     .status(201)
-    .json({ message: `File ${filename} saved to /tmp folder in your local` });
+    .json({
+      message: `File ${filename} saved to /tmp folder in your local`,
+      currentDir: process.cwd(),
+    });
 
   // const doc = new PDFDocument();
   //use the tmp serverless function folder to create the write stream for the pdf
